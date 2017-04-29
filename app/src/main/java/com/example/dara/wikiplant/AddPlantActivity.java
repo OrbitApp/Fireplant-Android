@@ -1,18 +1,21 @@
 package com.example.dara.wikiplant;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
+import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,23 +29,29 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import permissions.dispatcher.NeedsPermission;
-import permissions.dispatcher.RuntimePermissions;
+
+import static android.Manifest.permission.CAMERA;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 public class AddPlantActivity extends AppCompatActivity {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int REQUEST_TAKE_PHOTO = 1;
     private static final String TAG = AddPlantActivity.class.getSimpleName();
+    private static final int WRITE_EXTERNAL_STORAGE_REQUEST = 100;
     @BindView(R.id.editText_name)
     EditText editTextName;
     @BindView(R.id.editText_genus)
@@ -89,34 +98,34 @@ public class AddPlantActivity extends AppCompatActivity {
         mPlantUploadThumbRecyclerView.setAdapter(mGalleryRecyclerViewAdapter);
 
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_IMAGE_CAPTURE) {
-            if (data == null) {
-                Toast.makeText(this, "Error capturing image", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            Bundle extras = data.getExtras();
-            //     try {
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            mTestImage.setImageBitmap(imageBitmap);
-            // mGalleryRecyclerViewAdapter.addBitmaps(new UploadPlantImage(imageFile, imageBitmap));
-            //uploadFile();
-            //      } catch (IOException e) {
-            //       e.printStackTrace();
-            //      Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-            //   }
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
+            // Show the thumbnail on ImageView
+            Uri imageUri = Uri.parse(mCurrentPhotoPath);
+            File file = new File(imageUri.getPath());
+
+            mGalleryRecyclerViewAdapter.addBitmaps(file);
+
+            // ScanFile so it will be appeared on Gallery
+            MediaScannerConnection.scanFile(this,
+                    new String[]{imageUri.getPath()}, null,
+                    new MediaScannerConnection.OnScanCompletedListener() {
+                        public void onScanCompleted(String path, Uri uri) {
+                        }
+                    });
         }
     }
 
     private void uploadFile() {
-        File GFile = mGalleryRecyclerViewAdapter.getUploadPlantImages().get(0).getPlantImage();
+        if (mGalleryRecyclerViewAdapter.getUploadPlantImages() == null) {
+            return;
+        }
+        File GFile = mGalleryRecyclerViewAdapter.getUploadPlantImages().get(0);
         Uri file = Uri.fromFile(GFile);
-        StorageReference riversRef = mStorageRef.child("plants");
-
-
-        riversRef.putFile(file)
+        Toast.makeText(this, GFile.getName(), Toast.LENGTH_SHORT).show();
+        mStorageRef.child("plants/" + GFile.getName()).putFile(file)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -143,7 +152,7 @@ public class AddPlantActivity extends AppCompatActivity {
         }
     } */
 
-    private void dispatchTakePictureIntent() {
+    private void dispatchTakePictureIntent() throws IOException {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
@@ -153,56 +162,18 @@ public class AddPlantActivity extends AppCompatActivity {
                 photoFile = createImageFile();
             } catch (IOException ex) {
                 // Error occurred while creating the File
-                Log.d(TAG, ex.getMessage());
                 return;
             }
             // Continue only if the File was successfully created
             if (photoFile != null) {
-                Uri photoURI = null;
-                try {
-                    photoURI = FileProvider.getUriForFile(this,
-                            BuildConfig.APPLICATION_ID + ".provider",
-                            createImageFile());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                Uri photoURI = FileProvider.getUriForFile(this,
+                        BuildConfig.APPLICATION_ID + ".provider",
+                        createImageFile());
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
             }
         }
     }
-
-    /*  private void dispatchTakePictureIntent() {
-          Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-          // Ensure that there's a camera activity to handle the intent
-          if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-              // Create the File where the photo should go
-              File photoFile = null;
-              try {
-                  photoFile = createImageFile();
-              } catch (IOException ex) {
-                  // Error occurred while creating the File
-                  return;
-              }
-              // Continue only if the File was successfully created
-              if (photoFile != null) {
-                  Uri photoURI = null;
-                  try {
-
-                      takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                      startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
-                  } catch (IOException e) {
-                      e.printStackTrace();
-                  }
-
-              }
-          }
-      }
-  */
-    private void confirmAddEntry() {
-
-    }
-
 
     private File createImageFile() throws IOException {
         // Create an image file name
@@ -234,11 +205,46 @@ public class AddPlantActivity extends AppCompatActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.button_add_images:
-                dispatchTakePictureIntent();
+                try {
+                    startCamera();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 break;
             case R.id.button_add:
-                uploadEntry();
+                uploadFile();
+                // uploadEntry();
                 break;
         }
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == WRITE_EXTERNAL_STORAGE_REQUEST && grantResults.length > 0
+                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            try {
+                dispatchTakePictureIntent();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    void startCamera() throws IOException {
+        //request for runtime permission
+        if (ContextCompat.checkSelfPermission(this, WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this, CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{WRITE_EXTERNAL_STORAGE, CAMERA},
+                    WRITE_EXTERNAL_STORAGE_REQUEST);
+            return;
+        }
+        dispatchTakePictureIntent();
+
+    }
+
+
 }

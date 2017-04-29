@@ -6,6 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.squareup.picasso.Picasso;
+
+import java.io.File;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -18,18 +21,18 @@ import butterknife.ButterKnife;
 
 public class GalleryRecyclerViewAdapter extends RecyclerView.Adapter<GalleryRecyclerViewAdapter.ViewHolder> {
 
-    ArrayList<UploadPlantImage> mUploadPlantImages;
+    ArrayList<File> mUploadPlantImages;
 
-    public ArrayList<UploadPlantImage> getUploadPlantImages() {
+    public ArrayList<File> getUploadPlantImages() {
         return mUploadPlantImages;
     }
 
-    public void setUploadPlantImages(ArrayList<UploadPlantImage> uploadPlantImages) {
+    public void setUploadPlantImages(ArrayList<File> uploadPlantImages) {
         mUploadPlantImages = uploadPlantImages;
         notifyDataSetChanged();
     }
 
-    public void addBitmaps(UploadPlantImage uploadPlantImage) {
+    public void addBitmaps(File uploadPlantImage) {
         if (mUploadPlantImages == null) {
             mUploadPlantImages = new ArrayList<>();
         }
@@ -46,9 +49,11 @@ public class GalleryRecyclerViewAdapter extends RecyclerView.Adapter<GalleryRecy
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        UploadPlantImage bitmap = mUploadPlantImages.get(position);
+        File bitmap = mUploadPlantImages.get(position);
         if (bitmap != null) {
-            holder.mButtonGalleryThumb.setImageBitmap(bitmap.getPlantBitmap());
+            Picasso.with(holder.itemView.getContext())
+                    .load(bitmap)
+                    .into(holder.mButtonGalleryThumb);
         }
     }
 
