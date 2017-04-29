@@ -18,6 +18,9 @@ public class Plant {
     @PropertyName("images")
     private ArrayList<PlantImage> plantImages;
 
+    public Plant() {
+    }
+
     public Plant(String name, String status, String genus, String taxonomy, String description) {
         this.name = name;
         this.status = status;
@@ -66,8 +69,11 @@ public class Plant {
         this.taxonomy = taxonomy;
     }
 
-    public ArrayList<PlantImage> getPlantImages() {
-        return plantImages;
+    public String getPlantUrl() {
+        if (plantImages == null || plantImages.get(0) == null){
+            return null;
+        }
+        return plantImages.get(0).getUrl();
     }
 
     public void setPlantImages(ArrayList<PlantImage> plantImages) {
