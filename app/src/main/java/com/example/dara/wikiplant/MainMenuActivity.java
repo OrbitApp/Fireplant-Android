@@ -3,7 +3,7 @@ package com.example.dara.wikiplant;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class MainMenu extends AppCompatActivity {
+public class MainMenuActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

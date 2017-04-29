@@ -15,6 +15,18 @@
       },
       "oauth_client": [
         {
+          "client_id": "1080367617461-gniuiijdbl6f2id5tqdiskkko6bnjmfm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.dara.wikiplant",
+            "certificate_hash": "131d7917ae7cfdf9140a96d99ef212cb97896307"
+          }
+        },
+        {
+          "client_id": "1080367617461-qsj9ubpg4gfm5b4apkrmjo990l6g7bij.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
           "client_id": "1080367617461-o4uku7cib5cnmhhf3qbfafbak3is3qaa.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +41,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1080367617461-qsj9ubpg4gfm5b4apkrmjo990l6g7bij.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2
