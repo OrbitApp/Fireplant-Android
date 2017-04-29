@@ -35,8 +35,7 @@ import java.util.Date;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import permissions.dispatcher.NeedsPermission;
-import permissions.dispatcher.RuntimePermissions;
+
 
 public class AddPlantActivity extends AppCompatActivity {
 
@@ -121,8 +120,8 @@ public class AddPlantActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         // Get a URL to the uploaded content
-                        Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                        Toast.makeText(AddPlantActivity.this, downloadUrl.toString(), Toast.LENGTH_SHORT).show();
+        //                Uri downloadUrl = taskSnapshot.getDownloadUrl();
+         //               Toast.makeText(AddPlantActivity.this, downloadUrl.toString(), Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

@@ -10,7 +10,7 @@
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="18"/>
     <uses-permission android:name="android.permission.CAMERA"/>
-
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -18,7 +18,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AddPlantActivity">
+        <activity android:name=".ListOfPlantsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,8 +26,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainMenuActivity"/>
-        <activity android:name=".ListOfPlantsActivity"/>
-        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".LoginActivity"/>
+        <activity android:name=".AddPlantActivity"></activity>
 
         <provider
             android:name="android.support.v4.content.FileProvider"
