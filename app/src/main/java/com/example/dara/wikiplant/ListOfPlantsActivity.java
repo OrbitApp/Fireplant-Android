@@ -22,7 +22,7 @@ public class ListOfPlantsActivity extends AppCompatActivity {
     android.support.v7.widget.RecyclerView RecyclerView;
     FirebaseDatabase database;
     DatabaseReference myRef;
-    List<PlantClass> listData;
+    List<Plant> listData;
     private ItemPlantAdapter adapter;
 
     @Override
@@ -43,12 +43,9 @@ public class ListOfPlantsActivity extends AppCompatActivity {
                 // whenever data at this location is updated.
                 listData.clear();
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                    PlantClass value = dataSnapshot1.getValue(PlantClass.class);
-                    String name = value.getName();
-                    String description = value.getDescription();
-                    fire.setName(name);
-                    fire.setDescription(description);
-                    listData.add(fire);
+                    Plant value = dataSnapshot1.getValue(Plant.class);
+
+                    listData.add(value);
                     System.out.println(fire.getName());
                     System.out.println(fire.getDescription());
                 }
