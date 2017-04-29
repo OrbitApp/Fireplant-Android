@@ -86,10 +86,18 @@
             />
 
         <android.support.v7.widget.RecyclerView
+            android:id="@+id/plant_upload_thumb_recyclerview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            >
 
         </android.support.v7.widget.RecyclerView>
+
+        <ImageView
+            android:id="@+id/test_image"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            />
 
         <Button
             android:id="@+id/button_add_images"
