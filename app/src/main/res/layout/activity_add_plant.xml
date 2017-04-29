@@ -39,7 +39,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:ems="10"
-            android:hint="Taxonomy"
+            android:hint="Family"
             android:inputType="text|textPersonName"/>
 
         <EditText

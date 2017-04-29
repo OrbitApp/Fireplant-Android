@@ -13,17 +13,21 @@ public class Plant {
     private String name;
     private String status;
     private String genus;
-    private String taxonomy;
+    private String family;
     private String description;
     @PropertyName("images")
-    private ArrayList<PlantImage> plantImages;
+    private ArrayList<PlantImage> images;
+    private ArrayList<PlantUnit> units;
 
-    public Plant(String name, String status, String genus, String taxonomy, String description) {
+    public Plant(String name, String status, String genus, String family, String description,
+                 ArrayList<PlantImage> plantImages, ArrayList<PlantUnit> plantUnits) {
         this.name = name;
         this.status = status;
         this.genus = genus;
-        this.taxonomy = taxonomy;
+        this.family = family;
         this.description = description;
+        this.images = plantImages;
+        this.units = plantUnits;
     }
 
     public String getName() {
@@ -58,20 +62,28 @@ public class Plant {
         this.genus = genus;
     }
 
-    public String getTaxonomy() {
-        return taxonomy;
+    public String getFamily() {
+        return family;
     }
 
-    public void setTaxonomy(String taxonomy) {
-        this.taxonomy = taxonomy;
+    public void setFamily(String family) {
+        this.family = family;
     }
 
-    public ArrayList<PlantImage> getPlantImages() {
-        return plantImages;
+    public ArrayList<PlantImage> getImages() {
+        return images;
     }
 
-    public void setPlantImages(ArrayList<PlantImage> plantImages) {
-        this.plantImages = plantImages;
+    public void setImages(ArrayList<PlantImage> images) {
+        this.images = images;
+    }
+
+    public ArrayList<PlantUnit> getUnits() {
+        return units;
+    }
+
+    public void setUnits(ArrayList<PlantUnit> units) {
+        this.units = units;
     }
 
     @Override
@@ -80,8 +92,10 @@ public class Plant {
                 "name='" + name + '\'' +
                 ", status='" + status + '\'' +
                 ", genus='" + genus + '\'' +
-                ", taxonomy='" + taxonomy + '\'' +
-                ", plantImages=" + plantImages +
+                ", family='" + family + '\'' +
+                ", description='" + description + '\'' +
+                ", images=" + images +
+                ", units=" + units +
                 '}';
     }
 }

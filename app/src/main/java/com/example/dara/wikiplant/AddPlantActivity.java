@@ -2,7 +2,6 @@ package com.example.dara.wikiplant;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.BitmapFactory;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
@@ -29,14 +28,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.squareup.picasso.Picasso;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import butterknife.BindView;
@@ -78,6 +74,7 @@ public class AddPlantActivity extends AppCompatActivity {
     GalleryRecyclerViewAdapter mGalleryRecyclerViewAdapter;
     private DatabaseReference mDatabase;
     private StorageReference mStorageRef;
+    private ArrayList<String> mStringArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,27 +119,42 @@ public class AddPlantActivity extends AppCompatActivity {
         if (mGalleryRecyclerViewAdapter.getUploadPlantImages() == null) {
             return;
         }
-        File GFile = mGalleryRecyclerViewAdapter.getUploadPlantImages().get(0);
-        Uri file = Uri.fromFile(GFile);
-        Toast.makeText(this, GFile.getName(), Toast.LENGTH_SHORT).show();
-        mStorageRef.child("plants/" + GFile.getName()).putFile(file)
-                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        // Get a URL to the uploaded content
-                        Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                        Toast.makeText(AddPlantActivity.this, downloadUrl.toString(), Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        // Handle unsuccessful uploads
-                        // ...
-                        exception.printStackTrace();
-                        Toast.makeText(AddPlantActivity.this, exception.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+        ArrayList<File> fileArrayList = mGalleryRecyclerViewAdapter.getUploadPlantImages();
+        mStringArrayList = new ArrayList<>();
+        for (File GFile : fileArrayList) {
+            Uri file = Uri.fromFile(GFile);
+            mStorageRef.child("plants/" + GFile.getName()).putFile(file)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            // Get a URL to the uploaded content
+                            Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                            if (downloadUrl != null) {
+                                mStringArrayList.add(downloadUrl.toString());
+                            }
+                            startUploading();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            // Handle unsuccessful uploads
+                            // ...
+                            exception.printStackTrace();
+                            Toast.makeText(AddPlantActivity.this, exception.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
+
+    }
+
+    private void startUploading() {
+        int sizeToComplete = mGalleryRecyclerViewAdapter.getUploadPlantImages().size();
+        int sizeCompleted = mStringArrayList.size();
+        if (sizeCompleted >= sizeToComplete) {
+            uploadEntry();
+        }
+
     }
 
    /* private void dispatchTakePictureIntent() {
@@ -197,8 +209,18 @@ public class AddPlantActivity extends AppCompatActivity {
         String genus = editTextGenus.getText().toString();
         String taxonomy = editTextTaxonomy.getText().toString();
         String description = editTextDescription.getText().toString();
+        String latitude = mEditTextLatitude.getText().toString();
+        String longitude = mEditTextLongitude.getText().toString();
+        ArrayList<PlantImage> plantImages = new ArrayList<>();
+        for (String imageUrl : mStringArrayList) {
+            plantImages.add(new PlantImage(imageUrl));
+        }
+
+        ArrayList<PlantUnit> plantUnits = new ArrayList<>();
+        plantUnits.add(new PlantUnit(longitude, latitude));
         //upload image first
-        mDatabase.push().setValue(new Plant(name, "pending", genus, taxonomy, description));
+        mDatabase.push().setValue(new Plant(name, "pending", genus, taxonomy, description,
+                plantImages, plantUnits));
     }
 
     @OnClick({R.id.button_add_images, R.id.button_add})

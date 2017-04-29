@@ -13,6 +13,10 @@ public class PlantImage {
     @PropertyName("main")
     private boolean isMain;
 
+    public PlantImage(String url) {
+        this.url = url;
+    }
+
     public String getName() {
         return name;
     }
