@@ -3,8 +3,6 @@ package com.example.dara.wikiplant;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.widget.Button;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -33,24 +31,19 @@ public class ListOfPlantsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list_of_plants);
         ButterKnife.bind(this);
         initRecyclerview();
-        RecyclerView.setHasFixedSize(true);
-        LinearLayoutManager llm = new LinearLayoutManager(this);
-        llm.setOrientation(LinearLayoutManager.VERTICAL);
-        RecyclerView.setLayoutManager(llm);
+
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("plants");
         final PlantClass fire = new PlantClass();
-        listData = new ArrayList<PlantClass>();
+
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-
+                listData.clear();
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-
                     PlantClass value = dataSnapshot1.getValue(PlantClass.class);
-
                     String name = value.getName();
                     String description = value.getDescription();
                     fire.setName(name);
@@ -59,7 +52,7 @@ public class ListOfPlantsActivity extends AppCompatActivity {
                     System.out.println(fire.getName());
                     System.out.println(fire.getDescription());
                 }
-
+                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -68,12 +61,17 @@ public class ListOfPlantsActivity extends AppCompatActivity {
             }
         });
         System.out.println(listData);
-        adapter = new ItemPlantAdapter(listData, this);
-        RecyclerView.setAdapter(adapter);
+
 
     }
 
     private void initRecyclerview() {
-
+        listData = new ArrayList<>();
+        adapter = new ItemPlantAdapter(listData, this);
+        RecyclerView.setHasFixedSize(true);
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        RecyclerView.setLayoutManager(llm);
+        RecyclerView.setAdapter(adapter);
     }
 }
