@@ -4,9 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -18,8 +18,6 @@ import butterknife.OnClick;
 public class AddPlantActivity extends AppCompatActivity {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
-    @BindView(R.id.imageView)
-    ImageView imageView;
     @BindView(R.id.editText_name)
     EditText editTextName;
     @BindView(R.id.editText_genus)
@@ -30,6 +28,15 @@ public class AddPlantActivity extends AppCompatActivity {
     Button buttonAdd;
     @BindView(R.id.editText_description)
     EditText editTextDescription;
+    @BindView(R.id.toolbar3)
+    Toolbar mToolbar3;
+    @BindView(R.id.editTextLatitude)
+    EditText mEditTextLatitude;
+    @BindView(R.id.editTextLongitude)
+    EditText mEditTextLongitude;
+    @BindView(R.id.button_add_images)
+    Button mButtonAddImages;
+
     private DatabaseReference mDatabase;
 
     @Override
@@ -37,6 +44,7 @@ public class AddPlantActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_plant);
         ButterKnife.bind(this);
+        setSupportActionBar(mToolbar3);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         mDatabase = database.getReference("plants");
 
