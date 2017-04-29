@@ -1,8 +1,6 @@
 package com.example.dara.wikiplant;
 
-import com.google.firebase.database.PropertyName;
-
-import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by pandawarrior91 on 29/04/2017.
@@ -15,8 +13,10 @@ public class Plant {
     private String genus;
     private String taxonomy;
     private String description;
-    @PropertyName("images")
-    private ArrayList<PlantImage> plantImages;
+    private HashMap<String, PlantImage> images;
+
+    public Plant() {
+    }
 
     public Plant(String name, String status, String genus, String taxonomy, String description) {
         this.name = name;
@@ -66,12 +66,12 @@ public class Plant {
         this.taxonomy = taxonomy;
     }
 
-    public ArrayList<PlantImage> getPlantImages() {
-        return plantImages;
+    public HashMap<String, PlantImage> getImages() {
+        return images;
     }
 
-    public void setPlantImages(ArrayList<PlantImage> plantImages) {
-        this.plantImages = plantImages;
+    public void setImages(HashMap<String, PlantImage> images) {
+        this.images = images;
     }
 
     @Override
@@ -81,7 +81,8 @@ public class Plant {
                 ", status='" + status + '\'' +
                 ", genus='" + genus + '\'' +
                 ", taxonomy='" + taxonomy + '\'' +
-                ", plantImages=" + plantImages +
+                ", description='" + description + '\'' +
+                ", images=" + images +
                 '}';
     }
 }

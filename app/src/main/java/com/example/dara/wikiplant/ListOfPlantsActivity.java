@@ -3,6 +3,7 @@ package com.example.dara.wikiplant;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -18,6 +19,7 @@ import butterknife.ButterKnife;
 
 public class ListOfPlantsActivity extends AppCompatActivity {
 
+    private static final String TAG = ListOfPlantsActivity.class.getSimpleName();
     @BindView(R.id.RecyclerView)
     android.support.v7.widget.RecyclerView RecyclerView;
     FirebaseDatabase database;
@@ -34,7 +36,6 @@ public class ListOfPlantsActivity extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("plants");
-        final PlantClass fire = new PlantClass();
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -43,14 +44,10 @@ public class ListOfPlantsActivity extends AppCompatActivity {
                 // whenever data at this location is updated.
                 listData.clear();
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                    PlantClass value = dataSnapshot1.getValue(PlantClass.class);
+                    Plant value = dataSnapshot1.getValue(Plant.class);
                     String name = value.getName();
                     String description = value.getDescription();
-                    fire.setName(name);
-                    fire.setDescription(description);
-                    listData.add(fire);
-                    System.out.println(fire.getName());
-                    System.out.println(fire.getDescription());
+                    Log.d(TAG, value.toString());
                 }
                 adapter.notifyDataSetChanged();
             }
