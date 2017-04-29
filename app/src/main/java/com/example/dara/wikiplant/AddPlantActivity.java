@@ -7,9 +7,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.google.firebase.database.DatabaseReference;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class AddPlantActivity extends AppCompatActivity {
 
@@ -26,9 +27,6 @@ public class AddPlantActivity extends AppCompatActivity {
     @BindView(R.id.editText_description)
     EditText editTextDescription;
     private DatabaseReference mDatabase;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
