@@ -8,6 +8,7 @@ package com.example.dara.wikiplant;
 public class PlantImage {
     private String name;
     private String url;
+    private boolean main;
 
     public PlantImage() {
     }
@@ -32,12 +33,16 @@ public class PlantImage {
         this.url = url;
     }
 
+    public boolean isMain() {
+        return main;
+    }
 
     @Override
     public String toString() {
         return "PlantImage{" +
                 "name='" + name + '\'' +
                 ", url='" + url + '\'' +
+                ", main=" + main +
                 '}';
     }
 }
