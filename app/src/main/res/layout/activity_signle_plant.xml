@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp"
-    tools:context="com.example.dara.wikiplant.SignlePlantActivity"
-    android:orientation="vertical">
-<LinearLayout android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:layout_width="match_parent">
-    <ImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="16dp"
+            tools:context="com.example.dara.wikiplant.SinglePlantActivity">
+
+    <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+    android:orientation="vertical">
+    <ImageView
         android:id="@+id/imageView"
+        android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_marginBottom="8dp"
 
@@ -22,58 +24,58 @@
         android:id="@+id/textView_name_of_flower"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
-        android:text="Sunflower" />
+        android:text="Sunflower"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"/>
     <EditText
         android:id="@+id/textView_desc_of_flower"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
         android:layout_marginBottom="0dp"
         android:layout_marginTop="8dp"
-        android:text="Description" />
+        android:text="Description"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"/>
     <EditText
         android:id="@+id/textView_genus_of_flower"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
         android:layout_marginBottom="0dp"
         android:layout_marginTop="0dp"
-        android:text="Genus" />
+        android:text="Genus"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"/>
     <EditText
         android:id="@+id/textView_status_of_flower"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
         android:layout_marginBottom="0dp"
         android:layout_marginTop="0dp"
-        android:text="Status" />
+        android:text="Status"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"/>
     <EditText
         android:id="@+id/textView_taxonomy_of_flower"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
         android:layout_marginBottom="0dp"
         android:layout_marginTop="0dp"
-        android:text="Taxonomy" />
+        android:text="Taxonomy"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"/>
     <EditText
         android:id="@+id/textView_user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
         android:layout_marginBottom="0dp"
         android:layout_marginTop="0dp"
-        android:text="User" />
+        android:text="User"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"/>
     <EditText
         android:id="@+id/textView_nearest_location"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
         android:layout_marginBottom="0dp"
         android:layout_marginTop="0dp"
-        android:text="Location" />
+        android:text="Location"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"/>
 
     <Button
         android:id="@+id/button_edit_flower"

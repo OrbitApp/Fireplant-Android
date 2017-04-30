@@ -16,6 +16,14 @@
         >
 
     </android.support.v7.widget.Toolbar>
+
+    <Button
+        android:id="@+id/button_add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add"
+        tools:layout_editor_absoluteX="26dp"
+        tools:layout_editor_absoluteY="190dp"/>
     <Button
         android:id="@+id/list_button"
         android:layout_width="match_parent"

@@ -18,6 +18,7 @@ public class Plant {
     @PropertyName("images")
     private ArrayList<PlantImage> images;
     private ArrayList<PlantUnit> units;
+    private int mImageUrl;
 
     public Plant(String name, String status, String genus, String family, String description,
                  ArrayList<PlantImage> plantImages, ArrayList<PlantUnit> plantUnits) {
@@ -97,5 +98,18 @@ public class Plant {
                 ", images=" + images +
                 ", units=" + units +
                 '}';
+    }
+
+    public String getImageUrl() {
+        if (images != null) {
+            for (PlantImage image :
+                    images) {
+                if (image.isMain()) {
+                    return image.getUrl();
+                }
+            }
+        }
+        return "https://firebasestorage.googleapis.com/v0/b/fireplant-wiki.appspot.com" +
+                "/o/plants%2Fsf1.jpg?alt=media&token=9a8ac4e8-d167-4619-94a3-c9d9d970261c";
     }
 }

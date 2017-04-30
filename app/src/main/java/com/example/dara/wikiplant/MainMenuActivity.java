@@ -66,17 +66,21 @@ public class MainMenuActivity extends AppCompatActivity {
 
     }
 
-    @OnClick({R.id.list_button, R.id.scan_button})
+    @OnClick({R.id.list_button, R.id.scan_button, R.id.button_add})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.list_button:
+                startActivity(new Intent(this, ListOfPlantsActivity.class));
+                break;
+            case R.id.scan_button:
                 try {
                     startCamera();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 break;
-            case R.id.scan_button:
+            case R.id.button_add:
+                startActivity(new Intent(this, AddPlantActivity.class));
                 break;
         }
     }
@@ -161,7 +165,7 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
     private void startDetailActivity(String key) {
-        Intent intent = new Intent(this, );
+        Intent intent = new Intent(this, SinglePlantActivity.class);
         intent.putExtra("key", key);
         startActivity(intent);
     }

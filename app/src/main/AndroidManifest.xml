@@ -16,14 +16,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ListOfPlantsActivity">
+        <activity android:name=".ListOfPlantsActivity"/>
+        <activity android:name=".MainMenuActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainMenuActivity"/>
         <activity android:name=".LoginActivity"/>
         <activity android:name=".AddPlantActivity"></activity>
 
@@ -37,7 +36,7 @@
                 android:resource="@xml/file_paths"/>
         </provider>
 
-        <activity android:name=".SignlePlantActivity"></activity>
+        <activity android:name=".SinglePlantActivity"></activity>
     </application>
 
 </manifest>
