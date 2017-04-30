@@ -31,10 +31,13 @@ import java.util.Date;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
@@ -57,8 +60,14 @@ public class MainMenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_menu);
         ButterKnife.bind(this);
         setSupportActionBar(mMainMenuToolbar);
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://us-central1-fireplant-wiki.cloudfunctions.net/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
                 .build();
         mPlantService = retrofit.create(PlantService.class);
 
@@ -132,6 +141,7 @@ public class MainMenuActivity extends AppCompatActivity {
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         // Get a URL to the uploaded content
                         Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                        Toast.makeText(MainMenuActivity.this, downloadUrl.toString(), Toast.LENGTH_SHORT).show();
                         getIdentifier(downloadUrl);
                     }
                 })
@@ -150,21 +160,25 @@ public class MainMenuActivity extends AppCompatActivity {
 
     private void getIdentifier(Uri downloadUrl) {
         //retrofit
-        mPlantService.getPlantKey(downloadUrl.toString()).enqueue(new Callback<String>() {
+        mPlantService.getPlantKey(new ImageUrlPayload(downloadUrl.toString())).enqueue(new Callback<ImageUriDownload>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                Log.d(TAG, response.body());
-                startDetailActivity(response.body());
+            public void onResponse(Call<ImageUriDownload> call, Response<ImageUriDownload> response) {
+                Log.d(TAG, response.body().toString());
+                startDetailActivity(response.body().getKey());
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
-
+            public void onFailure(Call<ImageUriDownload> call, Throwable t) {
+                Log.e(TAG, t.getMessage());
             }
         });
     }
 
     private void startDetailActivity(String key) {
+        if (key == null) {
+            Toast.makeText(this, "No data", Toast.LENGTH_SHORT).show();
+            return;
+        }
         Intent intent = new Intent(this, SinglePlantActivity.class);
         intent.putExtra("key", key);
         startActivity(intent);
@@ -207,4 +221,10 @@ public class MainMenuActivity extends AppCompatActivity {
 
     }
 
+    @OnClick(R.id.test_button)
+    public void onViewClicked() {
+        Intent intent = new Intent(this, SinglePlantActivity.class);
+        intent.putExtra("key", "-KivtvLC0lTlMERFMBQA");
+        startActivity(intent);
+    }
 }

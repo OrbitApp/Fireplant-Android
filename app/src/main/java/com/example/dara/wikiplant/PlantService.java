@@ -1,8 +1,8 @@
 package com.example.dara.wikiplant;
 
 import retrofit2.Call;
-import retrofit2.http.GET;
-import retrofit2.http.Path;
+import retrofit2.http.Body;
+import retrofit2.http.POST;
 
 /**
  * Created by pandawarrior91 on 30/04/2017.
@@ -10,6 +10,6 @@ import retrofit2.http.Path;
  */
 
 public interface PlantService {
-    @GET("helloWorld")
-    Call<String> getPlantKey(@Path("url") String url);
+    @POST("helloWorld")
+    Call<ImageUriDownload> getPlantKey(@Body ImageUrlPayload url);
 }

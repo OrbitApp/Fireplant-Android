@@ -39,4 +39,11 @@
         android:text="Scan"
         tools:layout_editor_absoluteX="22dp"
         tools:layout_editor_absoluteY="113dp"/>
+
+    <Button
+        android:id="@+id/test_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Testing"
+        />
 </LinearLayout>

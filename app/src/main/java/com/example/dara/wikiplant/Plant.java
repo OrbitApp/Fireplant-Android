@@ -20,6 +20,9 @@ public class Plant {
     private ArrayList<PlantUnit> units;
     private int mImageUrl;
 
+    public Plant() {
+    }
+
     public Plant(String name, String status, String genus, String family, String description,
                  ArrayList<PlantImage> plantImages, ArrayList<PlantUnit> plantUnits) {
         this.name = name;
