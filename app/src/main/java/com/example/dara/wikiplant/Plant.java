@@ -1,6 +1,8 @@
 package com.example.dara.wikiplant;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Created by pandawarrior91 on 29/04/2017.
@@ -25,6 +27,7 @@ public class Plant {
         this.taxonomy = taxonomy;
         this.description = description;
     }
+
 
     public String getName() {
         return name;
@@ -68,6 +71,21 @@ public class Plant {
 
     public HashMap<String, PlantImage> getImages() {
         return images;
+    }
+
+    public String getImageUrl(){
+        Iterator it = images.entrySet().iterator();
+        while (it.hasNext()){
+            Map.Entry pair = (Map.Entry) it.next();
+            PlantImage plantImage = (PlantImage) pair.getValue();
+            if (plantImage != null && plantImage.isMain()){
+                return plantImage.getUrl();
+
+            }
+
+            it.remove();
+        }
+        return null;
     }
 
     public void setImages(HashMap<String, PlantImage> images) {
