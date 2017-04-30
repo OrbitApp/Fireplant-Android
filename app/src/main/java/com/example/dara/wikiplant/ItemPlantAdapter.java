@@ -19,12 +19,15 @@ import java.util.List;
 public class ItemPlantAdapter extends RecyclerView.Adapter<ItemPlantAdapter.PlantViewHolder> {
 
    private List<Plant> listItems;
+    private List<PlantImage> listImages;
     private Context context;
 
     public ItemPlantAdapter(List<Plant> list, Context context) {
         this.listItems = list;
         this.context = context;
     }
+
+
 
     @Override
     public PlantViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
@@ -38,10 +41,9 @@ public class ItemPlantAdapter extends RecyclerView.Adapter<ItemPlantAdapter.Plan
        Plant plant = listItems.get(position);
         holder.name.setText(plant.getName());
         holder.description.setText(plant.getDescription());
-        Picasso.with(holder.itemView.getContext())
-                .load(plant.getPlantUrl())
+       Picasso.with(holder.itemView.getContext())
+                .load(plant.getImageUrl())
                 .into(holder.image);
-        System.out.println("Name from ViewHolder"+plant.getName());
     }
 
     @Override

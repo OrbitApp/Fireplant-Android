@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context="com.example.dara.wikiplant.SignlePlantActivity"
+    android:orientation="vertical">
+<LinearLayout android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent">
+    <ImageView
+        android:layout_width="match_parent"
+        android:id="@+id/imageView"
+        android:layout_height="200dp"
+        android:layout_marginBottom="8dp"
+
+        tools:src="@color/colorPrimaryDark"
+        />
+    <EditText
+        android:id="@+id/textView_name_of_flower"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Sunflower" />
+    <EditText
+        android:id="@+id/textView_desc_of_flower"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+        android:layout_marginBottom="0dp"
+        android:layout_marginTop="8dp"
+        android:text="Description" />
+    <EditText
+        android:id="@+id/textView_genus_of_flower"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+        android:layout_marginBottom="0dp"
+        android:layout_marginTop="0dp"
+        android:text="Genus" />
+    <EditText
+        android:id="@+id/textView_status_of_flower"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+        android:layout_marginBottom="0dp"
+        android:layout_marginTop="0dp"
+        android:text="Status" />
+    <EditText
+        android:id="@+id/textView_taxonomy_of_flower"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+        android:layout_marginBottom="0dp"
+        android:layout_marginTop="0dp"
+        android:text="Taxonomy" />
+    <EditText
+        android:id="@+id/textView_user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+        android:layout_marginBottom="0dp"
+        android:layout_marginTop="0dp"
+        android:text="User" />
+    <EditText
+        android:id="@+id/textView_nearest_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+        android:layout_marginBottom="0dp"
+        android:layout_marginTop="0dp"
+        android:text="Location" />
+
+    <Button
+        android:id="@+id/button_edit_flower"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Edit" />
+</LinearLayout>>
+</ScrollView>
