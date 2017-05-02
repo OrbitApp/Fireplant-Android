@@ -15,6 +15,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -52,6 +54,16 @@ public class MainMenuActivity extends AppCompatActivity {
 
     String mCurrentPhotoPath;
     PlantService mPlantService;
+    @BindView(R.id.button_add)
+    Button mButtonAdd;
+    @BindView(R.id.list_button)
+    Button mListButton;
+    @BindView(R.id.scan_button)
+    Button mScanButton;
+    @BindView(R.id.test_button)
+    Button mTestButton;
+    @BindView(R.id.upload_progress_bar)
+    ProgressBar mUploadProgressBar;
     private StorageReference mStorageRef;
 
     @Override
@@ -63,7 +75,6 @@ public class MainMenuActivity extends AppCompatActivity {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
-
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://us-central1-fireplant-wiki.cloudfunctions.net/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -175,6 +186,7 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
     private void startDetailActivity(String key) {
+        mUploadProgressBar.setVisibility(View.GONE);
         if (key == null) {
             Toast.makeText(this, "No data", Toast.LENGTH_SHORT).show();
             return;
@@ -194,6 +206,7 @@ public class MainMenuActivity extends AppCompatActivity {
                 photoFile = createImageFile();
             } catch (IOException ex) {
                 // Error occurred while creating the File
+                mUploadProgressBar.setVisibility(View.VISIBLE);
                 return;
             }
             // Continue only if the File was successfully created
@@ -208,6 +221,7 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
     void startCamera() throws IOException {
+        mUploadProgressBar.setVisibility(View.VISIBLE);
         //request for runtime permission
         if (ContextCompat.checkSelfPermission(this, WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED ||
@@ -215,6 +229,7 @@ public class MainMenuActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this,
                     new String[]{WRITE_EXTERNAL_STORAGE, CAMERA},
                     WRITE_EXTERNAL_STORAGE_REQUEST);
+            mUploadProgressBar.setVisibility(View.GONE);
             return;
         }
         dispatchTakePictureIntent();
